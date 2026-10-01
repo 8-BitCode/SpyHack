@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Lenis from "lenis";
 import Scene from "./Scene";
+import ern from "./Assets/Ern.jpeg";
+import niya from "./Assets/Niya.jpeg";
+import meer from "./Assets/Meer.jpeg";
+import abdul from "./Assets/Abdul.png";
 import "./styles.css";
 
 // ---- Edit content here ----------------------------------------------------
@@ -34,11 +38,11 @@ const SPONSORS = [ // swap `logo` for an image path and `url` for the real link
 ];
 
 const TEAM = [
-  { name: "Ern Qi Teng", role: "Hackathon lead", file: "001", photo: null },
-  { name: "Niya Maju", role: "Hackathon team member", file: "002", photo: null },
-  { name: "Meer Hama Aziz", role: "Hackathon team member", file: "003", photo: null },
-  { name: "Abdul Khan Bibi", role: "Hackathon team member", file: "004", photo: null },
-]; // when a photo is ready set photo: "/team/name.jpg" (put the file in your public folder)
+  { name: "Ern Qi Teng", role: "Hackathon lead", file: "001", photo: ern },
+  { name: "Niya Maju", role: "Hackathon team member", file: "002", photo: niya },
+  { name: "Meer Hama Aziz", role: "Hackathon team member", file: "003", photo: meer },
+  { name: "Abdul Khan Bibi", role: "Hackathon team member", file: "004", photo: abdul },
+]; // photos live in src/Assets and are imported at the top; use photo: null to show the placeholder
 
 const FAQ = [
   ["What is SpyHack?", "The UK's first student-led intelligence and national security hackathon, run by the Manchester Intelligence Society. Over two days you work real-world style challenges as part of an intelligence team."],

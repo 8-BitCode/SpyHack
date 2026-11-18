@@ -1,253 +1,380 @@
-import React, { useState, useEffect } from "react";
-import Lenis from "lenis";
-import Scene from "./Scene";
-import ern from "./Assets/Ern.jpeg";
-import niya from "./Assets/Niya.jpeg";
-import meer from "./Assets/Meer.jpeg";
-import abdul from "./Assets/Abdul.png";
+import React, { useEffect, useState } from "react";
+import Crt from "./Crt";
+import Recon from "./Recon";
+import ern from "./Assets/opt/Ern.webp";
+import niya from "./Assets/opt/Niya.webp";
+import meer from "./Assets/opt/Meer.webp";
+import abdul from "./Assets/opt/Abdul.webp";
+import arcx from "./Assets/opt/arcX.webp";
+import ncc from "./Assets/opt/NCC.webp";
+import riscs from "./Assets/opt/RISCS.webp";
+import thm from "./Assets/opt/THM.webp";
+import canva from "./Assets/opt/Canva.webp";
+import newrali from "./Assets/opt/Newrali.webp";
+import softcat from "./Assets/opt/Softcat.webp";
+import hackuk from "./Assets/opt/HackathonsUK.webp";
 import "./styles.css";
 
 // ---- Edit content here ----------------------------------------------------
 const LINKS = {
+  register: "https://luma.com/hxjlivs9",
   linktree: "https://linktr.ee/manchester.intelligence",
   mis: "https://manchesterintelligencesociety.com/",
   email: "manchester.intelligence@manchesterstudentsunion.com",
+  w3w: "https://what3words.com/crass.tilt.noise",
+  maps: "https://www.google.com/maps/search/?api=1&query=Nancy+Rothwell+Building+Booth+St+E+Manchester+M13",
+  access: "https://www.accessable.co.uk/the-university-of-manchester/access-guides/nancy-rothwell-building",
+  cti101: "https://arcx.io",
+  hackuk: "https://hackathons.org.uk",
 };
 
-const DAYS = [
-  { day: "Saturday 12 December", name: "Solutions Track", who: "For the techies",
-    text: "Build security tools, data collection and analytics, and intelligence tooling against a realistic brief. Judged and awarded the same day." },
-  { day: "Sunday 13 December", name: "Analysis Track", who: "For the non-techies",
-    text: "Work geopolitical scenarios, historical case reports, personal investigations and incident response. No coding or cyber background needed." },
-];
-const STAGES = [
-  ["Mission Start", "Teams are set, the brief drops, the clock starts."],
-  ["Tactical Shift", "After lunch the focus changes. Sponsor sessions and side-missions keep the day moving."],
-  ["Commit Point", "Final push. Lock your approach and get ready to submit."],
-  ["Debrief", "Pitch to the judges, then prizes and closing talk."],
-];
-const SIDE = ["Military bootcamp", "Morse code", "Minute cryptic wordplay", "Linguistics puzzles", "Laser room", "Memory test", "Reaction time", "Scavenger hunt", "Best dressed", "Secret agent"];
+// 08:00 UK time on 12 Dec 2026 (GMT, so UTC)
+const START = Date.UTC(2026, 11, 12, 8);
 
-const SPONSORS = [ // swap `logo` for an image path and `url` for the real link
-  { name: "Title sponsor", logo: null, url: null, title: true },
-  { name: "Sponsor 01", logo: null, url: null },
-  { name: "Sponsor 02", logo: null, url: null },
-  { name: "Sponsor 03", logo: null, url: null },
-  { name: "Sponsor 04", logo: null, url: null },
-  { name: "Sponsor 05", logo: null, url: null },
+const STATS = [
+  ["150+", "hackers"],
+  ["£10k+", "in prizes"],
+  ["2", "tracks"],
+  ["13", "hours"],
+];
+
+const TRACKS = [
+  { k: "A", name: "Solutions", who: "For the techies",
+    text: "Build with a security and data focus: security tools, data collection and analytics, intelligence tooling.",
+    tags: ["Security tools", "Data & analytics", "Intel tooling"] },
+  { k: "B", name: "Analysis", who: "For the non-techies",
+    text: "Work geopolitical situations, real or invented scenario reports, personal investigations and incident response. No coding needed.",
+    tags: ["Geopolitics", "Investigations", "Incident response"] },
+];
+
+// Keep times broad on the site: only start and end are shown.
+const PHASES = [
+  ["Doors open", "Registration and lanyards. Arrive solo or as a team."],
+  ["Opening ceremony", "The brief, the challenges, the sponsors and the prizes."],
+  ["Stage 1 · Mission start", "Teams are locked in and challenges open."],
+  ["Stage 2 · Ground zero", "New intelligence drops. The challenge shifts."],
+  ["Submission", "Lock your solution and get ready to pitch."],
+  ["Judging & closing", "Pitch to the judges, then winners and prizes."],
+];
+
+const PROGRAMME = [
+  ["Workshop", "Cyber Threat Intelligence 101", "with NCC Group"],
+  ["Workshop", "Cryptography", "with Daniel Shiu"],
+  ["Workshop", "Bomb Threat Intelligence Exercise", "team-based, with Mark Webster"],
+  ["Panel", "Careers in intelligence & cyber", "with speakers from the day"],
+  ["Fuel", "Lunch, dinner & networking", "buffet-style, with a movie screening"],
+];
+
+const QUESTS = ["Cup stacking with Hackathons UK", "Intelligence Kahoot", "Minute cryptic", "Puzzle station", "Morse code", "Best dressed [spy]", "Scavenger hunt", "Military bootcamp", "Secret agent"];
+
+const PRIZES = [
+  "Top submissions in each track",
+  "Best use of a sponsor's tools",
+  "Most creative solution",
+  "Best presentation",
+  "Sponsor challenge prizes",
+  "Quest prizes through the day",
+];
+
+// tier only changes the tile border: "diamond" | "gold" | "silver"
+const SPONSORS = [
+  { name: "arcX", logo: arcx, tier: "diamond", url: "https://arcx.io" },
+  { name: "NCC Group", logo: ncc, tier: "diamond", url: "https://www.nccgroup.com" },
+  { name: "RISCS", logo: riscs, tier: "gold", url: "https://www.riscs.org.uk", tint: true },
+  { name: "Newrali", logo: newrali, tier: "gold", url: "https://newrali.com", label: true },
+  { name: "Softcat", logo: softcat, tier: "gold", url: "https://www.softcat.com", tint: true },
+  { name: "TryHackMe", logo: thm, tier: "silver", url: "https://tryhackme.com" },
+  { name: "Canva", logo: canva, tier: "silver", url: "https://www.canva.com", tint: true },
 ];
 
 const TEAM = [
-  { name: "Ern Qi Teng", role: "Hackathon lead", file: "001", photo: ern },
-  { name: "Niya Maju", role: "Hackathon team member", file: "002", photo: niya },
-  { name: "Meer Hama Aziz", role: "Hackathon team member", file: "003", photo: meer },
-  { name: "Abdul Khan Bibi", role: "Hackathon team member", file: "004", photo: abdul },
-]; // photos live in src/Assets and are imported at the top; use photo: null to show the placeholder
+  { name: "Ern Qi Teng", role: "Hackathon lead", photo: ern },
+  { name: "Niya Maju", role: "Hackathon team", photo: niya },
+  { name: "Meer Hama Aziz", role: "Hackathon team", photo: meer },
+  { name: "Abdul Khan Bibi", role: "Hackathon team", photo: abdul },
+];
 
 const FAQ = [
-  ["What is SpyHack?", "The UK's first student-led intelligence and national security hackathon, run by the Manchester Intelligence Society. Over two days you work real-world style challenges as part of an intelligence team."],
-  ["Who can take part?", "Students from any university and any discipline. Computer science, cyber, politics, law, history, languages, psychology and more are all welcome."],
-  ["I'm new to this. Do I need experience?", "No. The event is open to all disciplines, and there is a challenge for techies and non-techies. The Analysis Track needs no cyber, intelligence or coding background."],
-  ["What if I don't have a team?", "Don't worry. We will help you form a team on the day. Mixed teams of technical and non-technical students are encouraged."],
-  ["I'm an external student. Can I still apply?", "Yes. Use your university email address and sign up as an external member on our Students' Union website."],
-  ["Do I have to pick one track?", "No. Each track runs on its own day, so you can take part in both."],
-  ["Will I get an internship?", "It is great for your CV and a chance to meet employers and recruiters. Internships may be among the prizes, but nothing is confirmed yet."],
+  ["What is SpyHack?", "SpyHack is the UK's first student-led intelligence and national security hackathon, run by the Manchester Intelligence Society. It's a one-day, high-intensity event where you work real-world style challenges as part of an intelligence team, against the clock."],
+  ["Who can participate?", "Undergraduate and postgraduate students from any university and any discipline: computer science, cyber, politics, IR, law, history, languages, psychology and more. You must be 18 or over on the day."],
+  ["Do I need experience?", "No. The Analysis Track needs no cyber, intelligence or coding background, and the quests are built for everyone. If you've never done a hackathon or CTF, this is a good first one."],
+  ["Why should I take part?", "Portfolio-worthy experience in OSINT, investigations and incident response, hands-on time with tools used in industry, workshops and a careers panel, the chance to meet sponsors and recruiters, and £10k+ in prizes."],
+  ["How do the teams work?", "Teams are 2 to 5 people. Mixed teams of technical and non-technical students are encouraged. Coming solo? We'll match you with a team on the day. Teams are finalised at the registration desk before Stage 1 starts."],
+  ["Do I have to choose a track?", "No. The Solutions and Analysis tracks run in parallel and you can take on challenges from both."],
+  ["What does SpyHack provide?", "Food and drink all day. We can't offer travel or accommodation support. Dietary and accessibility needs are collected when you register."],
+  ["What should I bring?", "A laptop and charger, and anything you need to be comfortable for a long day. Spy-themed outfits are encouraged for the best-dressed quest."],
 ];
 // ---------------------------------------------------------------------------
 
-const START = Date.UTC(2026, 11, 12); // 12 Dec 2026 00:00 (GMT = UK time in December)
-function Countdown() {
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => { const i = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(i); }, []);
-  const d = START - now;
-  if (d <= 0) return <p className="count__done">Mission underway</p>;
-  const u = [["days", Math.floor(d / 864e5)], ["hrs", Math.floor(d / 36e5) % 24], ["min", Math.floor(d / 6e4) % 60], ["sec", Math.floor(d / 1e3) % 60]];
-  return (
-    <div className="count" role="timer" aria-label="Time until SpyHack begins">
-      <p>Mission begins in</p>
-      <div>{u.map(([l, v]) => <span key={l}><b>{String(v).padStart(2, "0")}</b>{l}</span>)}</div>
-    </div>
-  );
-}
-const Rv = ({ i = 0, as: T = "div", className = "", ...p }) => <T className={`rv ${className}`} style={{ "--d": `${i * 90}ms` }} {...p} />;
+// Inline redaction bar that slides away when scrolled into view.
+const X = ({ children }) => <span className="x">{children}</span>;
 
-const H = ({ children }) => <h2 className="sec__h rd">{children}</h2>;
+const Head = ({ n, kicker, children, id }) => (
+  <header className="head">
+    <span className="head__n" aria-hidden="true">{n}</span>
+    <p className="head__k">{kicker}</p>
+    <h2 id={id} className="head__t">{children}</h2>
+  </header>
+);
+
+const Ext = (p) => <a target="_blank" rel="noopener noreferrer" {...p} />;
+const Arrow = () => <svg className="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg>;
 
 export default function App() {
-  const [open, setOpen] = useState(0);
   const [menu, setMenu] = useState(false);
 
   useEffect(() => {
-    const root = document.documentElement;
-    let raf;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        root.style.setProperty("--sy", scrollY);
-        root.style.setProperty("--p", scrollY / (root.scrollHeight - innerHeight || 1));
-      });
-    };
-    const onMove = (e) => { root.style.setProperty("--mx", e.clientX + "px"); root.style.setProperty("--my", e.clientY + "px"); };
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12 });
-    document.querySelectorAll(".rv,.rd").forEach((n) => io.observe(n));
-    onScroll();
-    // Weighty inertial scroll (skipped for reduced motion; touch keeps native momentum)
-    let lenis, id;
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      lenis = new Lenis({ lerp: 0.06, wheelMultiplier: 0.85 });
-      lenis.on("scroll", ({ velocity }) => root.style.setProperty("--vel", Math.max(-40, Math.min(40, velocity))));
-      const loop = (t) => { lenis.raf(t); id = requestAnimationFrame(loop); };
-      id = requestAnimationFrame(loop);
-    }
-    const onClick = (e) => {
-      const l = e.target.closest('a[href^="#"]');
-      const tg = l && document.querySelector(l.getAttribute("href"));
-      if (tg && lenis) { e.preventDefault(); lenis.scrollTo(tg, { offset: -70, duration: 2 }); }
-    };
-    document.addEventListener("click", onClick);
-    addEventListener("scroll", onScroll, { passive: true });
-    addEventListener("pointermove", onMove, { passive: true });
-    return () => { cancelAnimationFrame(id); lenis && lenis.destroy(); document.removeEventListener("click", onClick); io.disconnect(); removeEventListener("scroll", onScroll); removeEventListener("pointermove", onMove); };
+    const els = document.querySelectorAll(".x,.rv");
+    if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -12% 0px" });
+    els.forEach((n) => io.observe(n));
+    return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menu ? "hidden" : "";
+    const k = (e) => e.key === "Escape" && setMenu(false);
+    addEventListener("keydown", k);
+    return () => removeEventListener("keydown", k);
+  }, [menu]);
+
+  const nav = [["brief", "Brief"], ["tracks", "Tracks"], ["day", "The day"], ["prizes", "Prizes"], ["venue", "Venue"], ["sponsors", "Sponsors"], ["faq", "FAQ"]];
 
   return (
     <>
-      <Scene />
-      <div className="fx" aria-hidden="true" />
-      <div className="bar" aria-hidden="true" />
+      <a className="skip" href="#main">Skip to content</a>
+
       <header className="nav">
-        <a href="#top" className="nav__logo">SPYHACK</a>
-        <button className="nav__btn" aria-expanded={menu} onClick={() => setMenu(!menu)}>{menu ? "Close" : "Menu"}</button>
-        <nav className={menu ? "open" : ""} onClick={() => setMenu(false)}>
-          {["about", "schedule", "sponsors", "team", "faq"].map((s) => <a key={s} href={`#${s}`}>{s}</a>)}
+        <a href="#top" className="nav__logo" aria-label="SpyHack home">SPY<span>/</span>HACK</a>
+        <nav id="menu" className={`nav__links${menu ? " open" : ""}`} aria-label="Sections">
+          {nav.map(([id, l], i) => <a key={id} href={`#${id}`} onClick={() => setMenu(false)}><small>0{i + 1}</small>{l}</a>)}
         </nav>
+        <div className="nav__end">
+          <Ext className="btn btn--sm" href={LINKS.register}>Register</Ext>
+          <button className="nav__btn" aria-expanded={menu} aria-controls="menu" onClick={() => setMenu(!menu)}>
+            <span className="sr">{menu ? "Close menu" : "Open menu"}</span>
+            <i aria-hidden="true" /><i aria-hidden="true" />
+          </button>
+        </div>
       </header>
 
-      <main id="top">
-        <section className="hero">
-          <p className="hero__org">The Manchester Intelligence Society presents</p>
-          <h1 className="hero__title">SPY<br />HACK</h1>
-          <p className="hero__lead">The UK's first student-led intelligence and national security hackathon.</p>
-          <div className="hero__meta">
-            <span className="stamp">СЕКРЕТНО</span>
-            <div><small>Date</small><strong>12–13 December 2026</strong></div>
-            <div><small>Format</small><strong>2 days · 2 tracks</strong></div>
+      <main id="main">
+        {/* ---------------- HERO ---------------- */}
+        <section className="hero" id="top" aria-labelledby="title">
+          <div className="hero__top">
+            <p>The Manchester Intelligence Society presents</p>
+            <p className="hero__file">File № SH-2026 <span>· Clearance: all students</span></p>
           </div>
-          <Countdown />
-          <div className="cta">
-            <a className="btn btn--red" href={LINKS.linktree} target="_blank" rel="noreferrer">Follow the mission</a>
-            <a className="btn" href="#about">Read the brief</a>
+
+          <h1 id="title" className="sr">SpyHack</h1>
+          <Crt />
+
+          <div className="hero__grid">
+            <p className="hero__lead">The UK's first student-led <em>intelligence &amp; national security</em> hackathon.</p>
+            <dl className="facts">
+              <div><dt>Date</dt><dd>Sat 12.12.2026</dd></div>
+              <div><dt>Time</dt><dd>08:00 – 21:00</dd></div>
+              <div><dt>Place</dt><dd>Nancy Rothwell Building, Manchester</dd></div>
+            </dl>
+            <div className="hero__cta">
+              <Ext className="btn btn--xl" href={LINKS.register}>Register now <Arrow /></Ext>
+            </div>
           </div>
-          <span className="cue" aria-hidden="true" />
+
+          <a className="headline" href="#arcx">
+            <span>Headline sponsor</span>
+            <img src={arcx} alt="arcX" width="700" height="368" />
+          </a>
         </section>
 
+        <div className="ticker" aria-hidden="true">
+          <div>{Array.from({ length: 2 }).map((_, k) => <span key={k}>12.12.2026 ✦ 150+ hackers ✦ £10k+ prizes ✦ Solutions × Analysis ✦ Nancy Rothwell Building ✦ any discipline ✦ teams of 2–5 ✦ </span>)}</div>
+        </div>
 
-        <section id="about" className="sec">
-          <H>Mission brief</H>
-          <div className="about">
-            <Rv as="p" className="about__big">Built by MIS, SpyHack fuses technical problem-solving with non-technical strategy. Coders, creatives, analysts and policy thinkers operate like an intelligence team under time pressure. It's immersive, fast and engineered for impact.</Rv>
-            <Rv i={1} className="panel">
-              <h3>Why we're doing this</h3>
-              <p>Intelligence work is interdisciplinary. It demands technical skill, analytical rigour and decisions under pressure, yet students rarely practise these together before entering the field.</p>
-              <p>SpyHack closes that gap. The next generation of analysts, engineers and policymakers should train together, not apart.</p>
-            </Rv>
-            <Rv i={2} className="panel panel--red">
-              <h3>Who it's for</h3>
-              <ul>
-                <li><b>Technical students</b> in CS, cyber, data science and engineering</li>
-                <li><b>Non-technical students</b> in politics, IR, law, history, languages and psychology</li>
-                <li><b>Beginners</b> who have never done a CTF or hackathon</li>
-              </ul>
-              <p className="quote">An event of the students, by the students, for the students.</p>
-            </Rv>
+        {/* ---------------- BRIEF ---------------- */}
+        <section id="brief" className="sec sec--paper" aria-labelledby="h-brief">
+          <Head n="01" kicker="Mission brief" id="h-brief">One day. Any discipline. <X>Real problems.</X></Head>
+          <p className="big rv">
+            Coders, creatives, analysts and policy thinkers operate as <X>an intelligence team</X>, collecting, analysing and acting on information <X>against the clock</X>. Intelligence work is interdisciplinary. The people who do it should <X>train together, not apart.</X>
+          </p>
+
+          <ul className="stats" aria-label="At a glance">
+            {STATS.map(([v, l]) => <li key={l} className="rv"><b>{v}</b><span>{l}</span></li>)}
+          </ul>
+
+          <div className="who">
+            <h3 className="who__h">Built for</h3>
+            <ul>
+              <li className="rv"><b>Techies</b><span>CS, cyber, data science and engineering students who want to point their skills at real security problems.</span></li>
+              <li className="rv"><b>Non-techies</b><span>Politics, IR, law, history, languages and psychology students who want hands-on investigation and briefing.</span></li>
+              <li className="rv"><b>First-timers</b><span>Never done a CTF or hackathon? The tracks and quests are built to be accessible.</span></li>
+            </ul>
+            <p className="who__q">“An event of the students, by the students, for the students.”</p>
           </div>
-          <ul className="gets">
-            {["Portfolio-worthy experience in OSINT, investigations and incident response", "Exposure to real tools and techniques used in industry", "Networking with sponsors, professionals and peers", "Prizes: details to be announced"].map((g, i) => <Rv as="li" i={i} key={g}>{g}</Rv>)}
+        </section>
+
+        {/* ---------------- HEADLINE SPONSOR ---------------- */}
+        <section id="arcx" className="sec arcx" aria-labelledby="h-arcx">
+          <p className="arcx__k">Headline sponsor</p>
+          <h2 id="h-arcx" className="arcx__logo"><img src={arcx} alt="arcX" width="700" height="368" loading="lazy" /></h2>
+          <blockquote className="arcx__q rv">
+            <p>Intelligence needs people who ask difficult questions, challenge convincing stories and follow the evidence. That's why arcX is backing SpyHack with training in cyber threat intelligence and disinformation analysis. We want to help students turn their curiosity into the ability to investigate a problem, make a sound judgement and defend their conclusions.</p>
+            <footer>arcX</footer>
+          </blockquote>
+          <Ext className="course rv" href={LINKS.cti101}>
+            <span className="course__k">Free course · get a head start</span>
+            <span className="course__t">Cyber Threat Intelligence 101</span>
+            <span className="course__go">Start on arcx.io <Arrow /></span>
+          </Ext>
+        </section>
+
+        {/* ---------------- TRACKS ---------------- */}
+        <section id="tracks" className="sec" aria-labelledby="h-tracks">
+          <Head n="02" kicker="Two tracks, in parallel" id="h-tracks">Pick a side. <br />Or play both.</Head>
+          <div className="tracks">
+            {TRACKS.map((t) => (
+              <article className="track rv" key={t.k}>
+                <span className="track__k" aria-hidden="true">{t.k}</span>
+                <p className="track__who">{t.who}</p>
+                <h3>{t.name}<span> track</span></h3>
+                <p>{t.text}</p>
+                <ul>{t.tags.map((g) => <li key={g}>{g}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          <p className="note rv">Both tracks run at the same time, and you can take on challenges from either. Mixed-discipline teams have the edge.</p>
+        </section>
+
+        {/* ---------------- THE DAY ---------------- */}
+        <section id="day" className="sec" aria-labelledby="h-day">
+          <Head n="03" kicker="Operation timeline" id="h-day">The day</Head>
+          <div className="tl">
+            <p className="tl__end"><b>08:00</b>Start</p>
+            <ol>
+              {PHASES.map(([t, d], i) => (
+                <li key={t} className="rv" style={{ "--i": i }}>
+                  <span className="tl__dot" aria-hidden="true" />
+                  <h3>{t}</h3>
+                  <p>{d}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="tl__end"><b>21:00</b>End</p>
+          </div>
+
+          <div className="prog">
+            <div>
+              <h3 className="sub">On the programme</h3>
+              <ul className="prog__list">
+                {PROGRAMME.map(([k, t, s]) => (
+                  <li key={t} className="rv"><small>{k}</small><b>{t}</b><span>{s}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="sub">Quests</h3>
+              <p className="muted">Bite-sized side-missions through the day, some announced just 15 minutes before they start. Prizes up for grabs.</p>
+              <ul className="chips">{QUESTS.map((q) => <li key={q}>{q}</li>)}</ul>
+            </div>
+          </div>
+          <p className="note">Line-up subject to change. Full timings will be shared with participants closer to the day.</p>
+        </section>
+
+        {/* ---------------- PRIZES ---------------- */}
+        <section id="prizes" className="sec sec--red" aria-labelledby="h-prizes">
+          <p className="head__k">Prize pool</p>
+          <h2 id="h-prizes" className="prize__big"><span className="sr">Over ten thousand pounds in prizes</span><span aria-hidden="true">£10k+</span></h2>
+          <ul className="prize__list">
+            {PRIZES.map((p, i) => <li key={p} className="rv"><small>{String(i + 1).padStart(2, "0")}</small>{p}</li>)}
           </ul>
         </section>
 
-        <section id="schedule" className="sec">
-          <H>Schedule</H>
-          <Rv as="p" className="sec__sub">A two-day event on 12 and 13 December. One track per day, so you can do both. Detailed timings will be confirmed closer to the event.</Rv>
-          <div className="days">
-            {DAYS.map((d, i) => (
-              <Rv i={i} className="panel day" key={d.name}>
-                <div className="day__n">{i + 1}</div>
-                <p className="day__date">{d.day}</p>
-                <h3>{d.name}</h3>
-                <p className="day__who">{d.who}</p>
-                <p>{d.text}</p>
-              </Rv>
-            ))}
+        {/* ---------------- VENUE ---------------- */}
+        <section id="venue" className="sec venue" aria-labelledby="h-venue">
+          <Head n="04" kicker="Rendezvous" id="h-venue">Nancy Rothwell Building</Head>
+          <div className="venue__wrap">
+          <Recon />
+          <div className="venue__grid">
+            <address className="venue__addr">
+              University of Manchester<br />Booth St E<br />Manchester M13
+            </address>
+            <Ext className="w3w" href={LINKS.maps}>
+              <span className="w3w__k">Directions</span>
+              <span className="w3w__t">Open in Google Maps <Arrow /></span>
+            </Ext>
+            <ul className="venue__links">
+              <li><Ext href={LINKS.access}>Accessibility guide (AccessAble) <Arrow /></Ext></li>
+              <li><Ext href={LINKS.w3w}>what3words ///crass.tilt.noise <Arrow /></Ext></li>
+            </ul>
+            <p className="muted venue__note">Step-free access to the ground floor from every entrance. Nearest station: Manchester Oxford Road.</p>
           </div>
-          <h3 className="side__h rd">Each day runs in stages</h3>
-          <ol className="tl rv">
-            {STAGES.map(([t, d]) => <li key={t}><h4>{t}</h4><p>{d}</p></li>)}
-          </ol>
-          <h3 className="side__h rd">Side-missions</h3>
-          <Rv as="p" className="sec__sub">Bite-sized challenges spread across both days. Some are announced just 15 minutes before they start.</Rv>
-          <ul className="chips">{SIDE.map((s, i) => <Rv as="li" i={i % 5} key={s}>{s}</Rv>)}</ul>
+          </div>
         </section>
 
-        <section id="sponsors" className="sec">
-          <H>Sponsors</H>
-          <Rv as="p" className="sec__sub">Sponsors to be announced. Challenges and prizes are still being confirmed.</Rv>
-          <div className="spons">
-            {SPONSORS.map((s, i) => {
-              const Tag = s.url ? "a" : "div";
+        {/* ---------------- SPONSORS ---------------- */}
+        <section id="sponsors" className="sec" aria-labelledby="h-sponsors">
+          <Head n="05" kicker="With thanks to" id="h-sponsors">Sponsors &amp; partners</Head>
+          <ul className="logos">
+            {SPONSORS.map((s) => {
+              const inner = s.logo
+                ? s.label
+                  ? <span className="lockup"><img src={s.logo} alt="" loading="lazy" /><span className="word">{s.name}</span></span>
+                  : <img src={s.logo} alt={s.name} loading="lazy" className={s.tint ? "tint" : ""} />
+                : <span className="word">{s.name}</span>;
               return (
-                <Rv as={Tag} i={i % 3} key={s.name} className={`spon ${s.title ? "spon--title" : ""}`} {...(s.url ? { href: s.url, target: "_blank", rel: "noreferrer" } : {})}>
-                  {s.logo ? <img src={s.logo} alt={s.name} /> : <><i /><i /><span>[ redacted ]</span></>}
-                  <small>{s.name}</small>
-                </Rv>
+                <li key={s.name} className={`logo logo--${s.tier}`}>
+                  {s.url ? <Ext href={s.url} aria-label={s.name}>{inner}</Ext> : <div>{inner}</div>}
+                </li>
               );
             })}
+          </ul>
+          <div className="partner">
+            <p className="head__k">Partner</p>
+            <Ext className="partner__l" href={LINKS.hackuk}>
+              <img src={hackuk} alt="Hackathons UK" width="700" height="175" loading="lazy" />
+            </Ext>
           </div>
         </section>
 
-        <section id="team" className="sec">
-          <H>The team</H>
-          <div className="team">
+        {/* ---------------- TEAM ---------------- */}
+        <section id="team" className="sec" aria-labelledby="h-team">
+          <Head n="06" kicker="Personnel files" id="h-team">The committee</Head>
+          <ul className="team">
             {TEAM.map((m, i) => (
-              <Rv i={i} className="panel agent" key={m.name}>
-                <div className="agent__photo">{m.photo ? <img src={m.photo} alt={m.name} /> : <><span>{m.name.split(" ").map((w) => w[0]).slice(0, 2).join("")}</span><small>photo tbd</small></>}</div>
-                <p className="agent__file">ДЕЛО № {m.file}</p>
+              <li key={m.name} className="agent rv">
+                <div className="agent__ph"><img src={m.photo} alt="" loading="lazy" width="560" height="700" /></div>
+                <small>File 00{i + 1}</small>
                 <h3>{m.name}</h3>
                 <p>{m.role}</p>
-              </Rv>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
-        <section id="faq" className="sec">
-          <H>FAQ</H>
-          <Rv className="faq">
+        {/* ---------------- FAQ ---------------- */}
+        <section id="faq" className="sec sec--paper" aria-labelledby="h-faq">
+          <Head n="07" kicker="Questions" id="h-faq">FAQ</Head>
+          <div className="faq">
             {FAQ.map(([q, a], i) => (
-              <div className={`faq__i ${open === i ? "is-open" : ""}`} key={q}>
-                <button aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
-                  <span>{q}</span><b aria-hidden="true" />
-                </button>
-                <div className="faq__a"><div><p>{a}</p></div></div>
-              </div>
+              <details key={q} open={i === 0}>
+                <summary><span>{q}</span><i aria-hidden="true" /></summary>
+                <p>{a}</p>
+              </details>
             ))}
-          </Rv>
-          <Rv as="p" className="faq__more">Still have a question? <a href={`mailto:${LINKS.email}`}>Email us</a></Rv>
+          </div>
+          <p className="faq__more">Still have questions? <a href={`mailto:${LINKS.email}`}>Email us</a></p>
         </section>
       </main>
 
       <footer className="foot">
-        <Rv as="h2">From curiosity to capability.</Rv>
-        <div className="cta cta--c">
-          <a className="btn" href={LINKS.linktree} target="_blank" rel="noreferrer">Follow the mission</a>
-          <a className="btn btn--ghost" href={LINKS.mis} target="_blank" rel="noreferrer">Visit MIS</a>
-        </div>
+        <p className="foot__big">From curiosity<br />to capability.</p>
+        <Ext className="btn btn--xl btn--ink" href={LINKS.register}>Register for SpyHack <Arrow /></Ext>
         <div className="foot__cols">
-          <div><h4>Event</h4><a href="#about">About</a><a href="#schedule">Schedule</a><a href="#sponsors">Sponsors</a></div>
-          <div><h4>People</h4><a href="#team">Team</a><a href="#faq">FAQ</a></div>
-          <div><h4>Connect</h4><a href={LINKS.linktree} target="_blank" rel="noreferrer">Linktree</a><a href={LINKS.mis} target="_blank" rel="noreferrer">MIS website</a><a href={`mailto:${LINKS.email}`}>Email</a></div>
+          <div><h3>Event</h3><a href="#brief">Brief</a><a href="#day">The day</a><a href="#venue">Venue</a><a href="#faq">FAQ</a></div>
+          <div><h3>MIS</h3><Ext href={LINKS.mis}>Website</Ext><Ext href={LINKS.linktree}>Linktree</Ext><a href={`mailto:${LINKS.email}`}>Email us</a></div>
+          <div><h3>Partner</h3><Ext href={LINKS.hackuk}>Hackathons UK</Ext></div>
         </div>
-        <p className="foot__note">SpyHack is organised by the Manchester Intelligence Society, a society for University of Manchester students. All challenge data is synthetic, fictional or public. Released under the MIT licence.</p>
-        <p className="foot__note">© 2026 The Manchester Intelligence Society</p>
+        <p className="foot__fine">SpyHack is run by the Manchester Intelligence Society, a University of Manchester student society. Participants must be 18+. All challenge data is synthetic, fictional or public, and all activity stays inside the provided environments. © 2026 The Manchester Intelligence Society.</p>
       </footer>
     </>
   );

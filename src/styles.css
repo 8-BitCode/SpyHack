@@ -228,7 +228,7 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
 .partner__l:hover{opacity:.8}
 
 /* ---------- team ---------- */
-.team{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(.8rem,2vw,1.8rem);align-items:start}
+.team{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(.8rem,2vw,1.8rem);align-items:start}
 .agent{position:relative}
 .agent__ph{aspect-ratio:4/5;overflow:hidden;background:var(--ink2);margin-bottom:.8rem}
 .agent__ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);transition:filter .6s,transform .7s var(--ease)}
@@ -257,7 +257,7 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
 .foot__cols{display:flex;flex-wrap:wrap;gap:1.5rem clamp(2rem,8vw,7rem);margin:clamp(3rem,7vw,5rem) 0 2.5rem;padding-top:1.4rem;border-top:2px solid var(--ink)}
 .foot__cols div{display:grid;gap:.15rem;align-content:start}
 .foot__cols h3{font:500 .74rem var(--mono);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
-.foot__cols a{font:700 1.05rem/1.3 var(--disp);text-decoration:none;padding:.25rem 0}
+.foot__cols a,.foot__cols span{font:700 1.05rem/1.3 var(--disp);text-decoration:none;padding:.25rem 0}
 .foot__cols a:hover{text-decoration:underline;text-underline-offset:3px}
 .foot__fine{font:400 .76rem/1.6 var(--mono);max-width:80ch}
 

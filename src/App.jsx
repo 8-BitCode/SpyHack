@@ -5,6 +5,7 @@ import ern from "./Assets/opt/Ern.webp";
 import niya from "./Assets/opt/Niya.webp";
 import meer from "./Assets/opt/Meer.webp";
 import abdul from "./Assets/opt/Abdul.webp";
+import bri from "./Assets/opt/Bri.webp";
 import arcx from "./Assets/opt/arcX.webp";
 import ncc from "./Assets/opt/NCC.webp";
 import riscs from "./Assets/opt/RISCS.webp";
@@ -13,6 +14,7 @@ import canva from "./Assets/opt/Canva.webp";
 import newrali from "./Assets/opt/Newrali.webp";
 import softcat from "./Assets/opt/Softcat.webp";
 import hackuk from "./Assets/opt/HackathonsUK.webp";
+import hackchester from "./Assets/opt/Hackchester.webp";
 import "./styles.css";
 
 // ---- Edit content here ----------------------------------------------------
@@ -89,6 +91,7 @@ const SPONSORS = [
 
 const TEAM = [
   { name: "Ern Qi Teng", role: "Hackathon lead", photo: ern },
+  { name: "Briselda Sulmina", role: "Sponsorship and Partnerships Lead", photo: bri },
   { name: "Niya Maju", role: "Hackathon team", photo: niya },
   { name: "Meer Hama Aziz", role: "Hackathon team", photo: meer },
   { name: "Abdul Khan Bibi", role: "Hackathon team", photo: abdul },
@@ -329,10 +332,14 @@ export default function App() {
             })}
           </ul>
           <div className="partner">
-            <p className="head__k">Partner</p>
+            <p className="head__k">Partners</p>
             <Ext className="partner__l" href={LINKS.hackuk}>
               <img src={hackuk} alt="Hackathons UK" width="700" height="175" loading="lazy" />
             </Ext>
+            <div className="partner__l lockup">
+              <img src={hackchester} alt="" width="277" height="400" loading="lazy" />
+              <span className="word">Hackchester</span>
+            </div>
           </div>
         </section>
 
@@ -372,7 +379,7 @@ export default function App() {
         <div className="foot__cols">
           <div><h3>Event</h3><a href="#brief">Brief</a><a href="#day">The day</a><a href="#venue">Venue</a><a href="#faq">FAQ</a></div>
           <div><h3>MIS</h3><Ext href={LINKS.mis}>Website</Ext><Ext href={LINKS.linktree}>Linktree</Ext><a href={`mailto:${LINKS.email}`}>Email us</a></div>
-          <div><h3>Partner</h3><Ext href={LINKS.hackuk}>Hackathons UK</Ext></div>
+          <div><h3>Partners</h3><Ext href={LINKS.hackuk}>Hackathons UK</Ext><span>Hackchester</span></div>
         </div>
         <p className="foot__fine">SpyHack is run by the Manchester Intelligence Society, a University of Manchester student society. Participants must be 18+. All challenge data is synthetic, fictional or public, and all activity stays inside the provided environments. © 2026 The Manchester Intelligence Society.</p>
       </footer>

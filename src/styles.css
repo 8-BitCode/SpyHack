@@ -257,7 +257,7 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
 .foot__cols{display:flex;flex-wrap:wrap;gap:1.5rem clamp(2rem,8vw,7rem);margin:clamp(3rem,7vw,5rem) 0 2.5rem;padding-top:1.4rem;border-top:2px solid var(--ink)}
 .foot__cols div{display:grid;gap:.15rem;align-content:start}
 .foot__cols h3{font:500 .74rem var(--mono);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
-.foot__cols a,.foot__cols span{font:700 1.05rem/1.3 var(--disp);text-decoration:none;padding:.25rem 0}
+.foot__cols a{font:700 1.05rem/1.3 var(--disp);text-decoration:none;padding:.25rem 0}
 .foot__cols a:hover{text-decoration:underline;text-underline-offset:3px}
 .foot__fine{font:400 .76rem/1.6 var(--mono);max-width:80ch}
 

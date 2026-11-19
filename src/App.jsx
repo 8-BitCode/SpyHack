@@ -28,6 +28,7 @@ const LINKS = {
   access: "https://www.accessable.co.uk/the-university-of-manchester/access-guides/nancy-rothwell-building",
   cti101: "https://arcx.io",
   hackuk: "https://hackathons.org.uk",
+  hackchester: "https://www.instagram.com/hackchester",
 };
 
 // 08:00 UK time on 12 Dec 2026 (GMT, so UTC)
@@ -336,10 +337,10 @@ export default function App() {
             <Ext className="partner__l" href={LINKS.hackuk}>
               <img src={hackuk} alt="Hackathons UK" width="700" height="175" loading="lazy" />
             </Ext>
-            <div className="partner__l lockup">
+            <Ext className="partner__l lockup" href={LINKS.hackchester}>
               <img src={hackchester} alt="" width="277" height="400" loading="lazy" />
               <span className="word">Hackchester</span>
-            </div>
+            </Ext>
           </div>
         </section>
 
@@ -379,7 +380,7 @@ export default function App() {
         <div className="foot__cols">
           <div><h3>Event</h3><a href="#brief">Brief</a><a href="#day">The day</a><a href="#venue">Venue</a><a href="#faq">FAQ</a></div>
           <div><h3>MIS</h3><Ext href={LINKS.mis}>Website</Ext><Ext href={LINKS.linktree}>Linktree</Ext><a href={`mailto:${LINKS.email}`}>Email us</a></div>
-          <div><h3>Partners</h3><Ext href={LINKS.hackuk}>Hackathons UK</Ext><span>Hackchester</span></div>
+          <div><h3>Partners</h3><Ext href={LINKS.hackuk}>Hackathons UK</Ext><Ext href={LINKS.hackchester}>Hackchester</Ext></div>
         </div>
         <p className="foot__fine">SpyHack is run by the Manchester Intelligence Society, a University of Manchester student society. Participants must be 18+. All challenge data is synthetic, fictional or public, and all activity stays inside the provided environments. © 2026 The Manchester Intelligence Society.</p>
       </footer>

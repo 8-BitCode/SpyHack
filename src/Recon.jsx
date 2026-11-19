@@ -43,7 +43,7 @@ export default function Recon() {
         {[[120, 180], [662, 230], [470, 470], [240, 120], [700, 330]].map(([x, y], i) => <rect key={i} className="recon__sq" x={x} y={y} width="14" height="14" />)}
         {/* leader lines */}
         {CALLOUTS.map((c, i) => {
-          const sy = c.y + (c.y < TY ? 22 + c.l.length * 20 + 12 : 0);
+          const sy = c.y + (c.y < TY ? 22 + c.l.length * 20 + 12 : 22);
           return <path key={i} className="recon__line" pathLength="1" style={{ "--i": i }} d={`M${c.x < TX ? c.x + c.w : c.x} ${sy}L${c.to[0]} ${c.to[1]}`} />;
         })}
         {/* target */}

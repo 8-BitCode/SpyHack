@@ -153,7 +153,7 @@ export default function App() {
       <a className="skip" href="#main">Skip to content</a>
 
       <header className="nav">
-        <a href="#top" className="nav__logo" aria-label="SpyHack home"><img src={mark} alt="" width="160" height="122" /><b>SPY<span>/</span>HACK</b></a>
+        <a href="#top" className="nav__logo" aria-label="SpyHack home"><img src={mark} alt="" width="160" height="144" /><b>SPY<span>/</span>HACK</b></a>
         <nav id="menu" className={`nav__links${menu ? " open" : ""}`} aria-label="Sections">
           {nav.map(([id, l], i) => <a key={id} href={`#${id}`} onClick={() => setMenu(false)}><small>0{i + 1}</small>{l}</a>)}
         </nav>

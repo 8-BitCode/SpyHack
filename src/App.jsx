@@ -15,6 +15,8 @@ import newrali from "./Assets/opt/Newrali.webp";
 import softcat from "./Assets/opt/Softcat.webp";
 import hackuk from "./Assets/opt/HackathonsUK.webp";
 import hackchester from "./Assets/opt/Hackchester.webp";
+import logo from "./Assets/opt/SpyHackLogo.webp";
+import mark from "./Assets/opt/SpyHackMark.webp";
 import "./styles.css";
 
 // ---- Edit content here ----------------------------------------------------
@@ -29,6 +31,7 @@ const LINKS = {
   cti101: "https://arcx.io",
   hackuk: "https://hackathons.org.uk",
   hackchester: "https://www.instagram.com/hackchester",
+  parking: "https://www.estates.manchester.ac.uk/services/operationalservices/carparking/",
 };
 
 // 08:00 UK time on 12 Dec 2026 (GMT, so UTC)
@@ -105,6 +108,7 @@ const FAQ = [
   ["Why should I take part?", "Portfolio-worthy experience in OSINT, investigations and incident response, hands-on time with tools used in industry, workshops and a careers panel, the chance to meet sponsors and recruiters, and £10k+ in prizes."],
   ["How do the teams work?", "Teams are 2 to 5 people. Mixed teams of technical and non-technical students are encouraged. Coming solo? We'll match you with a team on the day. Teams are finalised at the registration desk before Stage 1 starts."],
   ["Do I have to choose a track?", "No. The Solutions and Analysis tracks run in parallel and you can take on challenges from both."],
+  ["How do I get in, and where can I park?", <>Use the <b>South Entrance</b> of the Nancy Rothwell Building, near the Aquatics Centre. For parking, see the <a href={LINKS.parking} target="_blank" rel="noopener noreferrer">University of Manchester car parking page</a>.</>],
   ["What does SpyHack provide?", "Food and drink all day. We can't offer travel or accommodation support. Dietary and accessibility needs are collected when you register."],
   ["What should I bring?", "A laptop and charger, and anything you need to be comfortable for a long day. Spy-themed outfits are encouraged for the best-dressed quest."],
 ];
@@ -149,7 +153,7 @@ export default function App() {
       <a className="skip" href="#main">Skip to content</a>
 
       <header className="nav">
-        <a href="#top" className="nav__logo" aria-label="SpyHack home">SPY<span>/</span>HACK</a>
+        <a href="#top" className="nav__logo" aria-label="SpyHack home"><img src={mark} alt="" width="160" height="122" /><b>SPY<span>/</span>HACK</b></a>
         <nav id="menu" className={`nav__links${menu ? " open" : ""}`} aria-label="Sections">
           {nav.map(([id, l], i) => <a key={id} href={`#${id}`} onClick={() => setMenu(false)}><small>0{i + 1}</small>{l}</a>)}
         </nav>
@@ -302,11 +306,13 @@ export default function App() {
             <address className="venue__addr">
               University of Manchester<br />Booth St E<br />Manchester M13
             </address>
+            <p className="entry"><span>Entry</span><em>Use the <b>South Entrance</b>, near the Aquatics Centre.</em></p>
             <Ext className="w3w" href={LINKS.maps}>
               <span className="w3w__k">Directions</span>
               <span className="w3w__t">Open in Google Maps <Arrow /></span>
             </Ext>
             <ul className="venue__links">
+              <li><Ext href={LINKS.parking}>Parking (University of Manchester) <Arrow /></Ext></li>
               <li><Ext href={LINKS.access}>Accessibility guide (AccessAble) <Arrow /></Ext></li>
               <li><Ext href={LINKS.w3w}>what3words ///crass.tilt.noise <Arrow /></Ext></li>
             </ul>
@@ -375,8 +381,13 @@ export default function App() {
       </main>
 
       <footer className="foot">
-        <p className="foot__big">From curiosity<br />to capability.</p>
-        <Ext className="btn btn--xl btn--ink" href={LINKS.register}>Register for SpyHack <Arrow /></Ext>
+        <div className="foot__top">
+          <div>
+            <p className="foot__big">From curiosity<br />to <span>capability.</span></p>
+            <Ext className="btn btn--xl" href={LINKS.register}>Register for SpyHack <Arrow /></Ext>
+          </div>
+          <img className="foot__logo" src={logo} alt="SpyHack 2026 logo" width="600" height="608" loading="lazy" />
+        </div>
         <div className="foot__cols">
           <div><h3>Event</h3><a href="#brief">Brief</a><a href="#day">The day</a><a href="#venue">Venue</a><a href="#faq">FAQ</a></div>
           <div><h3>MIS</h3><Ext href={LINKS.mis}>Website</Ext><Ext href={LINKS.linktree}>Linktree</Ext><a href={`mailto:${LINKS.email}`}>Email us</a></div>

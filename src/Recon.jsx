@@ -13,7 +13,7 @@ const W = 800, H = 560, TX = 340, TY = 246, TW = 146, TH = 84;
 const CALLOUTS = [
   { x: 28, y: 30, w: 210, t: "ADDR", l: ["BOOTH ST E", "MANCHESTER M13"], to: [TX, TY] },
   { x: 560, y: 30, w: 212, t: "WHEN", l: ["SAT 12.12.2026", "08:00 - 21:00"], to: [TX + TW, TY] },
-  { x: 28, y: 410, w: 230, t: "ACCESS", l: ["STEP-FREE GROUND", "FLOOR ENTRANCES"], to: [TX, TY + TH] },
+  { x: 28, y: 410, w: 230, t: "ENTRY", l: ["SOUTH ENTRANCE", "BY AQUATICS CENTRE"], to: [TX, TY + TH] },
   { x: 520, y: 410, w: 252, t: "RAIL", l: ["NEAREST STATION", "MANCHESTER OXFORD RD"], to: [TX + TW, TY + TH] },
 ];
 

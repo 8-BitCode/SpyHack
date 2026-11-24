@@ -15,6 +15,7 @@ import newrali from "./Assets/opt/Newrali.webp";
 import softcat from "./Assets/opt/Softcat.webp";
 import hackuk from "./Assets/opt/HackathonsUK.webp";
 import hackchester from "./Assets/opt/Hackchester.webp";
+import protective from "./Assets/opt/ProtectiveIntelligence.webp";
 import logo from "./Assets/opt/SpyHackLogo.webp";
 import mark from "./Assets/opt/SpyHackMark.webp";
 import "./styles.css";
@@ -91,6 +92,7 @@ const SPONSORS = [
   { name: "Softcat", logo: softcat, tier: "gold", url: "https://www.softcat.com", tint: true },
   { name: "TryHackMe", logo: thm, tier: "silver", url: "https://tryhackme.com" },
   { name: "Canva", logo: canva, tier: "silver", url: "https://www.canva.com", tint: true },
+  { name: "Protective Intelligence", logo: protective, tier: "silver", url: "https://www.protectiveintelligence.co.uk/" },
 ];
 
 const TEAM = [

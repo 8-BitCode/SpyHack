@@ -208,9 +208,6 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
 
 /* ---------- sponsors ---------- */
 .logos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.6rem,1.4vw,1rem)}
-.logos li:first-child{grid-column:span 2}
-.logos li:first-child>*{aspect-ratio:auto}
-.logos li:first-child img{max-height:72px}
 .logo>a,.logo>div{position:relative;height:100%;display:grid;place-items:center;aspect-ratio:16/9;padding:1.6rem 2rem;background:var(--ink2);text-decoration:none;transition:background .25s}
 .logo>a:hover{background:#1e1e1b}
 .logo img{max-height:56px;width:auto;max-width:100%;object-fit:contain}
@@ -320,8 +317,6 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
  .prize__list{grid-template-columns:1fr}
  .venue__wrap{grid-template-columns:1fr}
  .logos{grid-template-columns:repeat(2,minmax(0,1fr))}
- .logos li:first-child img{max-height:48px}
- .logos li:first-child>*{aspect-ratio:32/9}
  .logo>a,.logo>div{padding:1rem 1.2rem}
  .logo img{max-height:40px}
  .word{font-size:1.15rem}

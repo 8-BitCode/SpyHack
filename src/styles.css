@@ -56,8 +56,10 @@ a:hover>.arr,a:hover .arr{transform:translate(2px,-2px)}
 .crt__screen{display:block;width:100%;height:100%;background:var(--ink)}
 .crt--flat::before{content:"";position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0 1px,transparent 1px 3px);pointer-events:none}
 .headline{display:flex;align-items:center;gap:1.2rem;padding:1rem 0 1.4rem;text-decoration:none;font:500 .74rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);width:fit-content}
+.headline a{display:inline-flex;transition:opacity .2s}
+.headline a:hover{opacity:.8}
 .headline img{height:clamp(34px,4vw,48px);width:auto}
-.headline:hover{color:var(--paper)}
+.headline img.headline__canva{height:clamp(24px,2.8vw,34px)}
 .hero__top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem 2rem;font:500 .78rem/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em}
 .hero__file{color:var(--red)}.hero__file span{color:var(--mute)}
 .hero__grid{display:grid;grid-template-columns:1.1fr 1fr auto;gap:clamp(1.2rem,3vw,3rem);align-items:end;padding:clamp(1.2rem,2.4vw,2rem) 0;border-bottom:1px solid var(--line);margin-top:clamp(1rem,2vw,1.6rem)}

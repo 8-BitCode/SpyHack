@@ -11,7 +11,7 @@ import React, { useEffect, useRef } from "react";
   without WebGL.
 */
 
-const START = Date.UTC(2026, 11, 12, 8);
+const START = Date.UTC(2026, 11, 12, 9);
 const RED = "#ff3b1f", PAPER = "#ece6d9";
 
 const VERT = `attribute vec2 a;varying vec2 v;void main(){v=a*.5+.5;gl_Position=vec4(a,0.,1.);}`;

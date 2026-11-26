@@ -35,14 +35,14 @@ const LINKS = {
   parking: "https://www.estates.manchester.ac.uk/services/operationalservices/carparking/",
 };
 
-// 08:00 UK time on 12 Dec 2026 (GMT, so UTC)
-const START = Date.UTC(2026, 11, 12, 8);
+// 09:00 UK time on 12 Dec 2026 (GMT, so UTC)
+const START = Date.UTC(2026, 11, 12, 9);
 
 const STATS = [
   ["150+", "hackers"],
   ["£10k+", "in prizes"],
   ["2", "tracks"],
-  ["13", "hours"],
+  ["12", "hours"],
 ];
 
 const TRACKS = [
@@ -86,12 +86,12 @@ const PRIZES = [
 // tier only changes the tile border: "diamond" | "gold" | "silver"
 const SPONSORS = [
   { name: "arcX", logo: arcx, tier: "diamond", url: "https://arcx.io" },
+  { name: "Canva", logo: canva, tier: "diamond", url: "https://www.canva.com", tint: true },
   { name: "NCC Group", logo: ncc, tier: "diamond", url: "https://www.nccgroup.com" },
   { name: "RISCS", logo: riscs, tier: "gold", url: "https://www.riscs.org.uk", tint: true },
   { name: "Newrali", logo: newrali, tier: "gold", url: "https://newrali.com", label: true },
   { name: "Softcat", logo: softcat, tier: "gold", url: "https://www.softcat.com", tint: true },
   { name: "TryHackMe", logo: thm, tier: "silver", url: "https://tryhackme.com" },
-  { name: "Canva", logo: canva, tier: "silver", url: "https://www.canva.com", tint: true },
   { name: "Protective Intelligence", logo: protective, tier: "silver", url: "https://www.protectiveintelligence.co.uk/" },
 ];
 
@@ -183,7 +183,7 @@ export default function App() {
             <p className="hero__lead">The UK's first student-led <em>intelligence &amp; national security</em> hackathon.</p>
             <dl className="facts">
               <div><dt>Date</dt><dd>Sat 12.12.2026</dd></div>
-              <div><dt>Time</dt><dd>08:00 – 21:00</dd></div>
+              <div><dt>Time</dt><dd>09:00 – 21:00</dd></div>
               <div><dt>Place</dt><dd>Nancy Rothwell Building, Manchester</dd></div>
             </dl>
             <div className="hero__cta">
@@ -191,10 +191,11 @@ export default function App() {
             </div>
           </div>
 
-          <a className="headline" href="#arcx">
-            <span>Headline sponsor</span>
-            <img src={arcx} alt="arcX" width="700" height="368" />
-          </a>
+          <div className="headline">
+            <span>Headline sponsors</span>
+            <a href="#arcx"><img src={arcx} alt="arcX" width="700" height="368" /></a>
+            <Ext href="https://www.canva.com"><img className="headline__canva" src={canva} alt="Canva" width="700" height="225" /></Ext>
+          </div>
         </section>
 
         <div className="ticker" aria-hidden="true">
@@ -259,7 +260,7 @@ export default function App() {
         <section id="day" className="sec" aria-labelledby="h-day">
           <Head n="03" kicker="Operation timeline" id="h-day">The day</Head>
           <div className="tl">
-            <p className="tl__end"><b>08:00</b>Start</p>
+            <p className="tl__end"><b>09:00</b>Start</p>
             <ol>
               {PHASES.map(([t, d], i) => (
                 <li key={t} className="rv" style={{ "--i": i }}>
